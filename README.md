@@ -5,6 +5,8 @@
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13916363.svg)](https://doi.org/10.5281/zenodo.13916363)
 
+![Web App Screenshot](static/app.png)
+
 ## Table of Contents
 - [Overview](#overview)
 - [Why This Tool is Useful](#why-this-tool-is-useful)
