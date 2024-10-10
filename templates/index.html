@@ -107,19 +107,22 @@
                     <label for="start_date" class="form-label">
                         <i class="fas fa-calendar-alt"></i> Start Date (Default: Today):
                     </label>
-                    <input type="date" id="start_date" name="start_date" class="form-control" value="{{ today }}" required>
+                    <input type="date" id="start_date" name="start_date" class="form-control" 
+                           value="{{ start_date or today }}" required>
                 </div>
                 <div class="col-md-4">
                     <label for="num_days" class="form-label">
                         <i class="fas fa-clock"></i> Number of Days (Default: 5, Max: 10):
                     </label>
-                    <input type="number" id="num_days" name="num_days" class="form-control" min="1" max="10" value="5" required>
+                    <input type="number" id="num_days" name="num_days" class="form-control" min="1" max="10" 
+                           value="{{ num_days or '5' }}" required>
                 </div>
                 <div class="col-md-4">
                     <button type="submit" class="btn btn-primary btn-lg w-100">Check SWOT Passings</button>
                 </div>
             </div>
         </form>
+
 
         <!-- Error Message -->
         {% if message %}

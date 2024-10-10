@@ -34,6 +34,8 @@ delta = timedelta(days=20.864549)
 @app.route("/", methods=["GET", "POST"])
 def index():
     map_url = None  # Initialize map_url to None
+    start_date_str = None
+    num_days_str = "5"  # Default number of days to 5
     
     if request.method == "POST":
         # Get the start date and number of days from the form
@@ -47,15 +49,15 @@ def index():
             try:
                 start_date = pd.to_datetime(start_date_str)
             except ValueError:
-                return render_template("index.html", map_url=None, message="Invalid date format")  # Return error page
+                return render_template("index.html", map_url=None, message="Invalid date format", start_date=start_date_str, num_days=num_days_str)  # Return error page
 
         # Convert the number of days to integer (default to 5, max 10)
         try:
             num_days = int(num_days_str)
             if num_days > 10:
-                return render_template("index.html", map_url=None, message="Number of days must not exceed 10.")
+                return render_template("index.html", map_url=None, message="Number of days must not exceed 10.", start_date=start_date_str, num_days=num_days_str)
         except ValueError:
-            return render_template("index.html", map_url=None, message="Invalid number of days format")
+            return render_template("index.html", map_url=None, message="Invalid number of days format", start_date=start_date_str, num_days=num_days_str)
 
         # Calculate the end date based on the number of days
         end_date = start_date + timedelta(days=num_days)
@@ -73,7 +75,7 @@ def index():
                 selected.append(within_range)
 
         if len(selected) == 0:
-            return render_template("index.html", map_url=None, message="No data available for the selected date range.")
+            return render_template("index.html", map_url=None, message="No data available for the selected date range.", start_date=start_date_str, num_days=num_days_str)
 
         # Concatenate the selected data
         selected = pd.concat(selected).reset_index(drop=True)
@@ -98,10 +100,11 @@ def index():
         session['init'] = init
 
         # Return a URL to another route where the map will be served
-        return render_template("index.html", map_url="/show_map", message=None)
+        return render_template("index.html", map_url="/show_map", message=None, start_date=start_date_str, num_days=num_days_str)
 
     # Always return the form page for GET requests or if no data is submitted
-    return render_template("index.html", map_url=None, message=None)
+    return render_template("index.html", map_url=None, message=None, start_date=start_date_str, num_days=num_days_str)
+
 
 @app.route("/show_map")
 def show_map():
@@ -124,7 +127,7 @@ def show_map():
         cmap="Spectral",             # Use a color map
         tooltip=["TIME", f"DAYS from {init}"],  # Show time and days in tooltips
         zoom_start=3,
-        style_kwds=dict(opacity=0.5)  # Set polygon/line opacity
+        style_kwds=dict(weight=1, opacity=0.8, fillOpacity=0.3)  # Set polygon/line opacity
     ).save(map_html_io, close_file=False)
     
     # Decode the map HTML and return it
