@@ -7,23 +7,13 @@ import pandas as pd
 from datetime import timedelta, datetime
 from io import BytesIO
 import uuid
+from tools import calculate_time
 
 app = Flask(__name__)
 app.secret_key = 'your_secret_key'  # Required for session management
 
 # Load your shapefile data once during app startup
 gdf = gpd.read_file("data/external/swot_swath/swot_science_orbit_sept2015-v2_swath.shp")
-
-def calculate_time(start_time, index):
-    """
-    Calculates the exact time for each geometry feature based on its START_TIME and index.
-    """
-    _, day_num, time_str = start_time.split(" ", 2)
-    days = int(day_num)
-    time_parts = list(map(int, time_str.split(":")))
-    delta = timedelta(days=days-1, hours=time_parts[0], minutes=time_parts[1], seconds=time_parts[2] + index * 30)
-    reference_timestamp = pd.Timestamp("2023-07-21T05:33:45.768")
-    return delta + reference_timestamp
 
 # Apply the initial time calculation to the GeoDataFrame
 gdf['TIME'] = gdf.apply(lambda row: calculate_time(row['START_TIME'], row.name), axis=1)
