@@ -16,6 +16,7 @@ app = Flask(__name__)
 app.secret_key = os.getenv('FLASK_SECRET_KEY', 'fallback_secret_key')
 
 orbit_data = process_orbit_data()
+eez = gpd.read_file('data/external/eez/eez_boundaries_v12.shp')
 
 @app.route("/", methods=["GET", "POST"])
 def index():
@@ -49,14 +50,14 @@ def index():
         end_date = start_date + timedelta(days=num_days)
 
         if num_days<=4:
-            opacity = 0.4
-            fill_opacity = 0.2
+            opacity = 0.5
+            fill_opacity = 0.3
         else:
             opacity = 0.2
             fill_opacity = 0.1
 
         # Use the create_map function to generate the map and get the filtered data
-        map_object, selected = create_map(start_date, end_date, orbit_data, opacity=opacity, fill_opacity=fill_opacity)
+        map_object, selected = create_map(start_date, end_date, orbit_data, opacity=opacity, fill_opacity=fill_opacity, eez=eez)
 
         if selected is None or selected.empty:
             return render_template("index.html", map_url=None, message="No data available for the selected date range.", start_date=start_date_str, num_days=num_days_str)
