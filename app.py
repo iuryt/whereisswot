@@ -16,7 +16,7 @@ app = Flask(__name__)
 app.secret_key = os.getenv('FLASK_SECRET_KEY', 'fallback_secret_key')
 
 orbit_data = process_orbit_data()
-eez = gpd.read_file('data/external/eez/eez_boundaries_v12.shp')
+eez = gpd.read_file('data/external/eez/eez_boundaries_v12.shp').drop(columns=["DOC_DATE"])
 
 @app.route("/", methods=["GET", "POST"])
 def index():
