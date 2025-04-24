@@ -1,7 +1,8 @@
 from datetime import datetime, timedelta
 import pandas as pd
 import geopandas as gpd
-
+import folium
+from folium.plugins import MousePosition
 
 def process_orbit_data(num_cycles_calval=178, num_cycles_science=65):
     """
@@ -89,7 +90,7 @@ def calculate_time(start_time, index, reference_timestamp = pd.Timestamp("2023-0
     return delta + reference_timestamp
 
 
-def create_map(start_date, end_date, orbit_data, opacity=0.2, fill_opacity=0.1):
+def create_map(start_date, end_date, orbit_data, opacity=0.2, fill_opacity=0.1, eez=None):
     """
     Creates and returns a map object and the filtered data based on the date range.
 
@@ -130,11 +131,33 @@ def create_map(start_date, end_date, orbit_data, opacity=0.2, fill_opacity=0.1):
         cmap="Spectral",             # Use a color map
         tooltip=["TIME", f"DAYS from {init}", "PASS", "CYCLE", "ORBIT"],  # Show time and days in tooltips
         zoom_start=3,
-        style_kwds=dict(weight=1, opacity=opacity, fillOpacity=fill_opacity)  # Set polygon/line opacity
+        style_kwds=dict(weight=1, opacity=opacity, fillOpacity=fill_opacity),  # Set polygon/line opacity
+        control=True,
+        name="SWOT Pass",
     )
 
-    return map_object, selected
+    if eez is not None:
+        # map_object = eez.explore(m=map_object, color="gray", name="EEZ", style_kwds={"weight": 1.5}, tooltip=["LINE_NAME"], control=True)
+        # Create the EEZ layer as a Folium GeoJson, not via .explore()
+        folium.GeoJson(
+            data=eez.to_json(),
+            name="EEZ",
+            tooltip=folium.GeoJsonTooltip(fields=["LINE_NAME"]),
+            style_function=lambda x: {"color": "gray", "weight": 1.5},
+            show=False  # 👈 Toggled OFF by default
+        ).add_to(map_object)
 
+    folium.LayerControl().add_to(map_object)
+
+    # Show coordinates when hovering
+    MousePosition(
+        position="bottomright",
+        separator=" | ",
+        prefix="Lat/Lon:",
+        num_digits=3,
+    ).add_to(map_object)
+
+    return map_object, selected
 
 
 if __name__ == "__main__":
