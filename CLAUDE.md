@@ -18,15 +18,9 @@ pixi install
 pixi run start                   # runs on http://0.0.0.0:4242
 ```
 
-After changing dependencies in `pyproject.toml`, regenerate `requirements.txt`:
-
-```bash
-pixi run update-requirements
-```
-
 ## Deployment
 
-The app runs on **Hugging Face Spaces** (Docker SDK). The `Dockerfile` installs from `requirements.txt` and runs gunicorn on port 7860. To deploy, push to the HF Space git remote.
+The app runs on **Hugging Face Spaces** (Docker SDK). The `Dockerfile` uses a pixi multi-stage build — dependencies come from `pyproject.toml` + `pixi.lock` (single source of truth). Gunicorn serves on port 7860. To deploy, push to the HF Space git remote.
 
 Render (free tier) serves a redirect only — preserves the old `whereisswot.onrender.com` URL.
 
