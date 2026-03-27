@@ -1,0 +1,13 @@
+.pixi/
+.git/
+.gitignore
+.ipynb_checkpoints/
+__pycache__/
+*.ipynb
+*.kml
+data/processed/
+pixi.lock
+pyproject.toml
+update_requirements.py
+CLAUDE.md
+docs/

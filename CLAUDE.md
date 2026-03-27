@@ -4,7 +4,10 @@ This file provides guidance to Claude Code (claude.ai/code) when working with co
 
 ## Project Overview
 
-**Where is SWOT?** is a Flask web app that visualizes the orbit of the SWOT (Surface Water and Ocean Topography) satellite. Users select a date range and the app generates an interactive Folium map showing predicted satellite swath passes. Deployed on Render at https://whereisswot.onrender.com/.
+**Where is SWOT?** is a Flask web app that visualizes the orbit of the SWOT (Surface Water and Ocean Topography) satellite. Users select a date range and the app generates an interactive Folium map showing predicted satellite swath passes.
+
+Hosted on Hugging Face Spaces: https://huggingface.co/spaces/iuryt/whereisswot
+Redirects: `whereisswot.onrender.com` and `iuryt.github.io/whereisswot` both redirect to the HF Space.
 
 ## Running the App
 
@@ -15,13 +18,17 @@ pixi install
 pixi run start                   # runs on http://0.0.0.0:4242
 ```
 
-After changing dependencies in `pyproject.toml`, regenerate `requirements.txt` for Render:
+After changing dependencies in `pyproject.toml`, regenerate `requirements.txt`:
 
 ```bash
 pixi run update-requirements
 ```
 
-Production (Render) uses `requirements.txt` directly: build command `pip install -r requirements.txt`, start command `gunicorn app:app`.
+## Deployment
+
+The app runs on **Hugging Face Spaces** (Docker SDK). The `Dockerfile` installs from `requirements.txt` and runs gunicorn on port 7860. To deploy, push to the HF Space git remote.
+
+Render (free tier) serves a redirect only — preserves the old `whereisswot.onrender.com` URL.
 
 There is no test suite or linter configured.
 
