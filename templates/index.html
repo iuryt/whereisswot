@@ -132,11 +132,10 @@
         {% endif %}
 
         <!-- Map Container -->
-        {% if map_url %}
+        {% if map_html %}
             <div class="map-container">
                 <h2 class="text-center">SWOT Satellite Passings Map</h2>
-                <!-- Embed the map using an iframe -->
-                <iframe src="{{ map_url }}" class="w-100" height="600px"></iframe>
+                {{ map_html | safe }}
             </div>
         {% endif %}
     </div>
