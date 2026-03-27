@@ -49,7 +49,7 @@ def index():
         if selected is None or selected.empty:
             return render_template("index.html", map_html=None, message="No data available for the selected date range.", start_date=start_date_str, num_days=num_days_str)
 
-        map_html = map_object._repr_html_()
+        map_html = map_object.get_root().render()
 
         return render_template("index.html", map_html=map_html, message=None, start_date=start_date_str, num_days=num_days_str)
 

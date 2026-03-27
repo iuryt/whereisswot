@@ -135,7 +135,7 @@
         {% if map_html %}
             <div class="map-container">
                 <h2 class="text-center">SWOT Satellite Passings Map</h2>
-                {{ map_html | safe }}
+                <iframe srcdoc="{{ map_html | e }}" class="w-100" height="600px" frameborder="0"></iframe>
             </div>
         {% endif %}
     </div>
