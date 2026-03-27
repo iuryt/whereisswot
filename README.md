@@ -1,7 +1,15 @@
+---
+title: Where is SWOT?
+emoji: 🛰️
+colorFrom: blue
+colorTo: green
+sdk: docker
+app_port: 7860
+---
 
 # Where is SWOT?
 
-**Where is SWOT?** is a web application that allows users to visualize and track the passings of the **Surface Water and Ocean Topography (SWOT)** satellite as it orbits the Earth. By selecting a date range and the number of days, users can generate a map showing the satellite's projected path, helping researchers, scientists, and water management organizations predict when and where SWOT will collect fresh data. Check it [here](https://whereisswot.onrender.com/)!
+**Where is SWOT?** is a web application that allows users to visualize and track the passings of the **Surface Water and Ocean Topography (SWOT)** satellite as it orbits the Earth. By selecting a date range and the number of days, users can generate a map showing the satellite's projected path, helping researchers, scientists, and water management organizations predict when and where SWOT will collect fresh data. Check it [here](https://huggingface.co/spaces/iuryt/whereisswot)!
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.13916363.svg)](https://doi.org/10.5281/zenodo.13916363)
 

@@ -1,6 +1,4 @@
 data/external/eez/eez_boundaries_v12.dbf filter=lfs diff=lfs merge=lfs -text
-data/external/ee
-[[:space:]][[:space:]]z/eez_boundaries_v12.shp filter=lfs diff=lfs merge=lfs -text
 data/external/eez/eez_boundaries_v12.shp filter=lfs diff=lfs merge=lfs -text
 *.shp filter=lfs diff=lfs merge=lfs -text
 *.dbf filter=lfs diff=lfs merge=lfs -text

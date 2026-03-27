@@ -1,0 +1,11 @@
+.pixi/
+.claude/
+.git/
+.gitignore
+.ipynb_checkpoints/
+__pycache__/
+*.ipynb
+*.kml
+data/processed/
+CLAUDE.md
+docs/
