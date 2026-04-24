@@ -65,6 +65,33 @@
             width: 3rem;
             height: 3rem;
         }
+        .cookie-banner {
+            position: fixed;
+            left: 50%;
+            bottom: 20px;
+            transform: translateX(-50%);
+            max-width: 420px;
+            width: calc(100% - 40px);
+            padding: 16px;
+            background: rgba(33, 37, 41, 0.96);
+            color: #fff;
+            border-radius: 12px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+            z-index: 1050;
+        }
+        .cookie-banner[data-state="visible"] {
+            display: block !important;
+        }
+        .cookie-banner p {
+            margin-bottom: 12px;
+        }
+        .cookie-actions {
+            display: flex;
+            gap: 10px;
+        }
+        .cookie-actions .btn {
+            flex: 1;
+        }
     </style>
 </head>
 <body>
@@ -132,19 +159,88 @@
         {% endif %}
 
         <!-- Map Container -->
-        {% if map_html %}
+        {% if map_url %}
             <div class="map-container">
                 <h2 class="text-center">SWOT Satellite Passings Map</h2>
-                <iframe srcdoc="{{ map_html | e }}" class="w-100" height="600px" frameborder="0"></iframe>
+                <iframe src="{{ map_url }}" class="w-100" height="600px" frameborder="0"></iframe>
             </div>
         {% endif %}
     </div>
 
+    <div id="cookie-banner" class="cookie-banner" style="display: none;">
+        <p>This site uses analytics cookies to understand how people use the tool and improve it over time. You can accept or decline analytics tracking.</p>
+        <div class="cookie-actions">
+            <button type="button" class="btn btn-primary" id="accept-cookies">Accept</button>
+            <button type="button" class="btn btn-outline-light" id="decline-cookies">Decline</button>
+        </div>
+    </div>
+
     <!-- Loading Spinner JavaScript -->
     <script>
+        const GA_MEASUREMENT_ID = {{ ga_measurement_id|tojson }};
+
+        function loadGoogleAnalytics() {
+            if (!GA_MEASUREMENT_ID || window.gaLoaded) {
+                return;
+            }
+
+            window.gaLoaded = true;
+            const script = document.createElement('script');
+            script.async = true;
+            script.src = `https://www.googletagmanager.com/gtag/js?id=${GA_MEASUREMENT_ID}`;
+            document.head.appendChild(script);
+
+            window.dataLayer = window.dataLayer || [];
+            function gtag(){ dataLayer.push(arguments); }
+            window.gtag = gtag;
+            gtag('js', new Date());
+            gtag('config', GA_MEASUREMENT_ID);
+        }
+
+        function hideCookieBanner() {
+            document.getElementById('cookie-banner').style.display = 'none';
+            document.getElementById('cookie-banner').dataset.state = 'hidden';
+        }
+
+        function showCookieBanner() {
+            document.getElementById('cookie-banner').style.display = 'block';
+            document.getElementById('cookie-banner').dataset.state = 'visible';
+        }
+
         // Show spinner when form is submitted
         document.querySelector('form').addEventListener('submit', function() {
             document.getElementById('loading').style.display = 'block';
+        });
+
+        document.addEventListener('DOMContentLoaded', function() {
+            if (!GA_MEASUREMENT_ID) {
+                return;
+            }
+
+            const consent = localStorage.getItem('analytics_consent');
+            if (consent === 'accepted') {
+                loadGoogleAnalytics();
+                hideCookieBanner();
+                return;
+            }
+
+            if (consent === 'declined') {
+                hideCookieBanner();
+                return;
+            }
+
+            showCookieBanner();
+
+            document.getElementById('accept-cookies').addEventListener('click', function() {
+                localStorage.setItem('analytics_consent', 'accepted');
+                loadGoogleAnalytics();
+                hideCookieBanner();
+            });
+
+            document.getElementById('decline-cookies').addEventListener('click', function() {
+                localStorage.setItem('analytics_consent', 'declined');
+                hideCookieBanner();
+            });
         });
     </script>
 </body>
