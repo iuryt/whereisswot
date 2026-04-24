@@ -60,6 +60,12 @@ Once the app is running, follow these steps to use the **Where is SWOT?** tool:
 3. **Click "Check SWOT Passings"**: The app will generate a map showing the satellite’s passings for the selected date range.
 4. **View Results**: The map will display the projected path of the SWOT satellite, highlighting its coverage areas.
 
+## Analytics Setup
+
+To enable Google Analytics 4 tracking, set a Hugging Face Space secret named `GA_MEASUREMENT_ID` to your GA4 Measurement ID, for example `G-XXXXXXXXXX`.
+
+The app only loads Google Analytics after a visitor accepts the cookie banner.
+
 ## Contributing
 
 Contributions are welcome! If you'd like to improve this project, follow these steps:
