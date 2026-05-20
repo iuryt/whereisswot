@@ -2,7 +2,7 @@
 authors = [{name = "iury Simoes-Sousa", email = "iuryt@pm.me"}]
 name = "whereisswot"
 requires-python = ">= 3.11"
-version = "0.1.0"
+version = "3.0.1"
 license = "MIT"
 description = "Web app to visualize and track SWOT satellite passings."
 
