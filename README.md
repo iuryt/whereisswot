@@ -30,7 +30,7 @@ The **Where is SWOT?** tool is designed to help users monitor and track the SWOT
 
 ## Why This Tool is Useful
 
-The SWOT satellite provides high-resolution data critical for studying **climate change**, **water resources**, and **ocean dynamics**. This web application allows users to:
+The SWOT satellite provides high-resolution data critical for studying **oceanography** and **hydrology**. This web application allows users to:
 - Visualize the SWOT satellite’s orbit over time.
 - Monitor the satellite’s data collection in specific regions.
 - Anticipate future satellite passings and plan fieldwork accordingly.
